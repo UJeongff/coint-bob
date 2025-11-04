@@ -5,7 +5,10 @@ export const mockHomeTokens = [
         Symbol: "BDO",
         address: "0x1533C795EA2B33999Dd6eff0256640dC3b2415C2",
         Type: "Honeypot",
-        riskScore: 88 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 88 },
+            { type: "Rug Pull", percentage: 12 }
+        ]
     },
     {
         id: 2,
@@ -13,7 +16,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot, Mint and Dump",
-        riskScore: 92 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 3,
@@ -21,7 +27,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 55 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 4,
@@ -29,7 +38,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot, Rug pull",
-        riskScore: 25 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 5,
@@ -37,7 +49,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 6,
@@ -45,7 +60,10 @@ export const mockHomeTokens = [
         Symbol: "BDO",
         address: "0x1533C795EA2B33999Dd6eff0256640dC3b2415C2",
         Type: "Honeypot",
-        riskScore: 88 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 7,
@@ -53,7 +71,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 8,
@@ -61,7 +82,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 1 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 9,
@@ -69,7 +93,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 10,
@@ -77,7 +104,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 11,
@@ -85,7 +115,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 12,
@@ -93,7 +126,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 1 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 13,
@@ -101,7 +137,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     },
     {
         id: 14,
@@ -109,7 +148,10 @@ export const mockHomeTokens = [
         Symbol: "HM",
         address: "0xF836BCea14BfD5FcC449539Ad9BcD58032CD5eaf",
         Type: "Honeypot",
-        riskScore: 79 
+        scamTypeDistribution: [
+            { type: "Honeypot", percentage: 65 },
+            { type: "Mint and Dump", percentage: 92 }
+        ]
     }
 ]
 

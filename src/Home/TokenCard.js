@@ -1,6 +1,21 @@
+// TokenCard.js
 import './TokenCard.css';
 
 function TokenCard({token}) {
+
+  const calculateRiskScore = () => {
+    // token 객체에서 직접 접근
+    if (!token?.scamTypeDistribution || token.scamTypeDistribution.length === 0) {
+      return 0;
+    }
+    
+    const maxPercentage = Math.max(
+      ...token.scamTypeDistribution.map(item => item.percentage)
+    );
+    return maxPercentage;
+  };
+
+  const riskScore = calculateRiskScore();
 
   // risk-score 색상 
   const getRiskColor = (score) => {
@@ -26,11 +41,10 @@ function TokenCard({token}) {
       </div>
 
       <div className="risk-score"
-      style={{color: getRiskColor(token.riskScore)}}
+        style={{color: getRiskColor(riskScore)}}
       >
-        {token.riskScore}%
+        {riskScore}%
       </div>
-
     </div>
   );
 }
