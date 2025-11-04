@@ -94,5 +94,5 @@
 }
 .info-sub .meta-label { color:#87888C; }
 .info-sub .meta-value { color:#FFFFFF; }        /* 값만 강조 */
-.info-sub .meta-paren { color:#87888C; }        /* 괄호는 라벨색과 통일(선택) */
+.info-sub .meta-paren { color:#FFFFFF; }        /* 괄호는 라벨색과 통일(선택) */
 .info-sub .meta-sep { margin: 0 6px; }  
