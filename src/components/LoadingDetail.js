@@ -11,6 +11,8 @@ function LoadingDetail() {
 
     const safeProgress = Math.min(Math.max(progress, 0), 100);
 
+    const API_BASE = process.env.REACT_APP_API_BASE || '';
+
     useEffect(() => {
         if (!tokenAddr) return;
 
@@ -22,7 +24,7 @@ function LoadingDetail() {
         // ✅ 2) 실제 /api/analyze 호출
         const run = async () => {
             try {
-                const res = await fetch('/api/analyze/', {
+                const res = await fetch(`${API_BASE}/api/analyze/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token_addr: tokenAddr }),
