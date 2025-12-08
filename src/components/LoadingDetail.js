@@ -20,7 +20,7 @@ function LoadingDetail() {
 
         // ✅ 1) 가짜 progress 타이머: 최대 90%까지만 서서히 증가
         const timer = setInterval(() => {
-            setProgress((prev) => (prev < 90 ? prev + 5 : prev));
+            setProgress((prev) => (prev < 90 ? prev + 15 : prev));
         }, 500);
 
         // ✅ 2) 실제 /api/analyze 호출
@@ -69,13 +69,19 @@ function LoadingDetail() {
                 </div>
 
                 <h2 className="loading-detail-title">
-                    {tokenAddr
-                        ? `${tokenAddr} 토큰을 분석하고 있습니다...`
-                        : '토큰 정보를 분석하고 있습니다...'}
+                {tokenAddr ? (
+                    <>
+                    <span className="loading-detail-token">{tokenAddr}</span>
+                    <br />
+                    <span>토큰을 분석하고 있습니다...</span>
+                    </>
+                ) : (
+                    '토큰 정보를 분석하고 있습니다...'
+                )}
                 </h2>
 
                 <p className="loading-detail-description">
-                    잠시만 기다려주세요
+                잠시만 기다려주세요
                 </p>
 
                 <div className="loading-progress">
