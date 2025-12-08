@@ -162,20 +162,53 @@ function Detail() {
 
             try {
             // const API_BASE = process.env.REACT_APP_API_BASE || '';
-            const res = await fetch(`${API_BASE}/api/results/${address}/`);
+            const normalizedAddress = (address || '').trim();
+            const url = `${API_BASE}/api/results/${encodeURIComponent(normalizedAddress)}/`;
+            console.log('Detail fetch URL:', url);
+
+            const res = await fetch(url, {
+              headers: {
+                Accept: 'application/json',
+              },
+            });
+
+            // ✅ 2) 일단 텍스트로 먼저 읽고, 타입/앞부분 로그 찍기
+            const contentType = res.headers.get('content-type') || '';
+            const text = await res.text();
+
+            console.log('Detail response meta:', {
+              status: res.status,
+              contentType,
+              preview: text.slice(0, 200),
+            });
 
             if (!res.ok) {
-                if (res.status === 404) {
+              if (res.status === 404) {
                 setError('해당 주소의 결과가 없습니다. 먼저 분석을 실행해 주세요.');
-                } else {
+              } else {
                 setError('서버에서 데이터를 불러오는 중 오류가 발생했습니다.');
-                }
-                setTokenData(null);
-            } else {
-                const json = await res.json();
-                const mapped = mapApiResultToTokenData(json);
-                setTokenData(mapped);
+              }
+              setTokenData(null);
+              return;
             }
+
+            // ✅ 3) JSON 아닌 응답이면 여기서 걸러주기
+            if (!contentType.includes('application/json')) {
+              console.error('❌ JSON이 아닌 응답을 받았습니다.', {
+                status: res.status,
+                contentType,
+                preview: text.slice(0, 300),
+              });
+              setError('서버에서 잘못된 형식의 응답을 받았습니다.');
+              setTokenData(null);
+              return;
+            }
+
+            // ✅ 4) 여기서만 실제 JSON 파싱
+            const json = JSON.parse(text);
+            const mapped = mapApiResultToTokenData(json);
+            setTokenData(mapped);
+
             } catch (err) {
             console.error(err);
             setError('네트워크 오류가 발생했습니다.');
