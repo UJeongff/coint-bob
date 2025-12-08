@@ -158,7 +158,9 @@ function Detail() {
             setError(null);
 
             try {
-            const API_BASE = process.env.REACT_APP_API_BASE || '';
+            // const API_BASE = process.env.REACT_APP_API_BASE || '';
+            const API_BASE = 'https://nonexciting-erodible-renate.ngrok-free.dev';
+
             const res = await fetch(`${API_BASE}/api/results/${address}/`);
 
             if (!res.ok) {

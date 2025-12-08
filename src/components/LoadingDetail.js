@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './LoadingDetail.css';
 
-const API_BASE = process.env.REACT_APP_API_BASE || '';
+// const API_BASE = process.env.REACT_APP_API_BASE || '';
+const API_BASE = 'https://nonexciting-erodible-renate.ngrok-free.dev';
 console.log('API_BASE in LoadingDetail:', API_BASE);
 
 function LoadingDetail() {
