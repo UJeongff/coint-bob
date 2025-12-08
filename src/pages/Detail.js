@@ -169,7 +169,6 @@ function Detail() {
             const res = await fetch(url, {
               headers: {
                 Accept: 'application/json',
-                'ngrok-skip-browser-warning': 'true',
               },
             });
 
