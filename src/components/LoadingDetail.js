@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './LoadingDetail.css';
 
+const API_BASE = process.env.REACT_APP_API_BASE || '';
+console.log('API_BASE in LoadingDetail:', API_BASE);
+
 function LoadingDetail() {
     const [searchParams] = useSearchParams();
     const tokenAddr = (searchParams.get('address') || '').trim();
@@ -10,8 +13,6 @@ function LoadingDetail() {
     const navigate = useNavigate();
 
     const safeProgress = Math.min(Math.max(progress, 0), 100);
-
-    const API_BASE = process.env.REACT_APP_API_BASE || '';
 
     useEffect(() => {
         if (!tokenAddr) return;
