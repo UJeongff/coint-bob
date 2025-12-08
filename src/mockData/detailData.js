@@ -58,12 +58,22 @@ export const mockDetailData = {
         {
             category: "honeypot",
             title: "허니팟 패턴",
-            description: "어쩌고저쩌고"
+            description: "지분 쏠림(지니계수) : 0.91 (상위 지갑에 지분이 과도하게 몰린 상태)"
         },
+        {
+            category: "honeypot",
+            title: "허니팟 패턴",
+            description: "매수-매도 로그 거래량 차(vol_log_diff) : 1.27 (양수일수록 매수 과열·매도 위축)"
+        },  
         {
             category: "rugpull",
             title: "러그풀 패턴",
-            description: "어쩌고저쩌고"
+            description: "관찰 구간에서 리저브의 하락률(reserve_base_drop_frac) = 0.00120"
+        },  
+        {
+            category: "rugpull",
+            title: "러그풀 패턴",
+            description: "해당 구간의 누적 ‘매도 스왑량’(swap_sell_to_reserve_ratio) = 0.86920"
         }
     ]
 }

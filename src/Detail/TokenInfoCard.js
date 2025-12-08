@@ -29,17 +29,17 @@ function TokenInfoCard({ token }) {
       </div>
 
       <div className="info-item">
-        <span className="info-label">Token Type</span>
-        <span className="info-value">{token.tokenType}</span>
-      </div>
-
-      <div className="info-item">
         <span className="info-label">Contract Owner</span>
         <span className="info-value">{token.contractOwner}</span>
         <button className="icon-btn" onClick={() => copyAddr('owner', token.contractOwner)}>
           {copiedKey === 'owner' ? '✓' : '⧉'}
         </button>   
       </div>  
+
+      <div className="info-item">
+        <span className="info-label">Pair Type</span>
+        <span className="info-value">{token.tokenType}</span>
+      </div>
 
       <div className="info-item">
         <span className="info-label">Pair</span>
@@ -58,7 +58,7 @@ function TokenInfoCard({ token }) {
         </span>
         <span className="meta-sep"> · </span>
         <span className="meta">
-          <sapn className="meta-label">Pair CreateTime</sapn>
+          <span className="meta-label">Pair CreateTime</span>
           <span className="meta-paren">(</span>
           <span className="meta-value">{token.pairCreateTs || '-'}</span>
           <span className="meta-paren">)</span>

@@ -21,11 +21,18 @@
 .detail-token-info,
 .detail-holders,
 .detail-victim-insights {
-    background-color: #21222d;
+    /* 🔽 기존 background-color 대신 */
+    background: rgba(33, 34, 45, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+
     padding: 20px;
     border-radius: 12px;
     color: #FFFFFF;
-    font-size: 16px;    
+    font-size: 16px;
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
 }
@@ -63,4 +70,30 @@
 
 .detail-victim-insights > div {
     min-height: 100%;
+}
+
+@media (max-width: 1200px) {
+  .detail-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .detail-risk-score,
+  .detail-token-info,
+  .detail-holders,
+  .detail-victim-insights {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    height: auto; /* 고정 높이 해제 */
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-container {
+    padding: 16px;
+  }
+
+  .detail-risk-score {
+    margin-bottom: 4px; /* 게이지 카드와 다음 카드 사이 살짝 간격 */
+  }
 }
