@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './LoadingDetail.css';
 
 // const API_BASE = process.env.REACT_APP_API_BASE || '';
-const API_BASE = 'https://nonexciting-erodible-renate.ngrok-free.dev';
+const API_BASE = process.env.REACT_APP_API_BASE;
 console.log('API_BASE in LoadingDetail:', API_BASE);
 
 function LoadingDetail() {
@@ -14,13 +14,18 @@ function LoadingDetail() {
     const navigate = useNavigate();
 
     const safeProgress = Math.min(Math.max(progress, 0), 100);
+    const hasRunRef = useRef(false);
 
     useEffect(() => {
         if (!tokenAddr) return;
 
+        // ✅ 개발/StrictMode에서도 한 번만 돌도록 가드
+        if (hasRunRef.current) return;
+        hasRunRef.current = true;
+
         // ✅ 1) 가짜 progress 타이머: 최대 90%까지만 서서히 증가
         const timer = setInterval(() => {
-            setProgress((prev) => (prev < 90 ? prev + 15 : prev));
+            setProgress((prev) => (prev < 90 ? prev + 5 : prev));
         }, 500);
 
         // ✅ 2) 실제 /api/analyze 호출

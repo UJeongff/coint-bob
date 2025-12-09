@@ -8,7 +8,7 @@ import EmptyDetailState from '../components/EmptyDetailState';
 import LoadingDetail from '../components/LoadingDetail';
 import VictimInsightsCard from '../Detail/VictimInsights';
 
-const API_BASE = 'https://nonexciting-erodible-renate.ngrok-free.dev';
+const API_BASE = process.env.REACT_APP_API_BASE;
 console.log('API_BASE in Detail:', API_BASE);
 
 // Result API → Detail 컴포넌트에서 쓰는 tokenData 형태로 매핑

@@ -7,7 +7,7 @@ function HoldersChart({ token }) {
     return (
         <div className="holders-chart">
                   <h3 className="card-title">
-                    Holders{totalHolders ? ` (${totalHolders} token holders)` : ''}
+                    Holders{totalHolders ? ` (Top 20 token holders)` : ''}
                 </h3>
                 <div className="holders-scroll">
                     {token.holders.map((holder) => (
