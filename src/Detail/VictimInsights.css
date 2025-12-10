@@ -17,14 +17,51 @@
 }
 
 .category-list {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .category-item {
-    color: #d1d5db;
-    font-size: 14px;
-    margin-bottom: 8px;
-    line-height: 1.5;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.item-main {
+  display: flex;
+  justify-content: flex-start;  /* ← space-between 대신 */
+  align-items: center;
+  gap: 8px;                     /* 라벨–뱃지 사이 간격 */
+  margin-bottom: 2px;
+}
+
+.item-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.item-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.item-badge.badge-true {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+}
+
+.item-badge.badge-false {
+  background: rgba(248, 113, 113, 0.10);
+  color: #fecaca;
+}
+
+.item-badge.badge-default {
+  background: rgba(148, 163, 184, 0.16);
+  color: #e5e7eb;
+}
+
+.item-desc {
+  font-size: 11px;
+  color: #9ca3af;
 }
