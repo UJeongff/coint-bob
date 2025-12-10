@@ -16,7 +16,7 @@ const FEATURE_KO_LABEL = {
   sell_fail_type_3: '대량 매도 실패 유형',
 
   existing_holders_check: '기존 홀더 매도 가능 여부',
-  exterior_call_check: 'transfer 내부 외부 컨트랙트 호출 여부',
+  exterior_call_check: 'Transfer 함수의 외부 컨트랙트 호출 여부',
   tax_manipulation: '세금·수수료 조작 가능 여부',
   trading_suspend_check: '거래 임의 중단 가능 여부',
   unlimited_mint: '무제한 민팅 가능 여부',
@@ -64,7 +64,7 @@ const FEATURE_KO_LABEL = {
   whale_but_no_small_flag: '고래(대량 보유자)는 존재하지만 소액 홀더가 거의 없는 비정상 분포인지 여부',
 
   // (동적 분석 관련 기본 플래그는 위 Dynamic 섹션과 동일)
-  balance_manipulation: '동적 분석에서 잔액 조작·스냅샷 조작 등이 탐지됐는지 여부',
+  balance_manipulation: '잔액 조작 가능 여부',
 
   // ===== 예측 모델 기본 피처 =====
   sell_vol_per_cnt: '매도 1건당 평균 매도 물량(전체 매도 물량 ÷ 매도 횟수)',
@@ -90,7 +90,7 @@ const FEATURE_KO_LABEL = {
   holders_per_trade: '거래 1회당 평균 홀더 수(값이 작을수록 소수만 거래)',
   holders_per_activity: '활동 윈도 1개당 평균 홀더 수',
   high_holders_with_imbalance: '홀더는 많지만 거래 불균형이 큰 경우의 위험 점수',
-  high_holders_active_trading: '홀더도 많고 거래도 충분하며 불균형이 낮은 “건강한 커뮤니티” 정도를 나타내는 안전 점수',
+  high_holders_active_trading: '홀더도 많고 거래도 충분하며 불균형이 낮은 정도',
   holder_data_reliability: '홀더 관련 데이터의 신뢰도(1.0에 가까울수록 정상 구조, 특이할수록 0.1~0.5로 감소)',
   holder_concentration_risk: '정규화된 홀더 집중도 지수, 거래 불균형, 홀더 수 등을 종합해 계산한 “홀더 집중도 기반 위험 점수”',
   holder_asymmetry_score: '지니 계수·홀더 수·신뢰도 저하를 함께 반영한 홀더 분포 비대칭 위험 점수',
@@ -135,15 +135,15 @@ const FEATURE_KO_LABEL = {
   verified: '컨트랙트가 Etherscan에서 소스 검증(verified)된 상태인지 여부',
 
   // ===== Exit (RugPull) 피처 =====
-  reserve_base_drop_frac: 'base 리저브 직전 대비 감소율',
-  reserve_quote: 'quote 리저브 (log1p)',
-  reserve_quote_drop_frac: 'quote 리저브 직전 대비 감소율',
-  price_ratio: '가격 비율 (base/quote, log1p)',
+  reserve_base_drop_frac: 'Base 잔액 직전 대비 감소율',
+  reserve_quote: 'Quote 잔액',
+  reserve_quote_drop_frac: 'Quote 잔액 직전 대비 감소율',
+  price_ratio: '가격 비율',
   time_since_last_mint_sec: '마지막 민팅 이후 경과 시간',
-  reserve_quote_drawdown_global: '전체 기간 quote 리저브 낙폭 비율',
+  reserve_quote_drawdown_global: '전체 기간 Quote 잔액 감소율',
   liquidity_age_days: 'LP 생성 이후 경과 일수',
-  timestamp: '유동성 급변(탈취) 시점',
-  tx_hash: '유동성 탈취(의심) 거래 해시'
+  timestamp: '탈취 예상 시점',
+  tx_hash: '탈취 예상 시점의 트랜잭션 해시'
 };
 
 
@@ -155,11 +155,57 @@ export default function VictimInsightsCard({ items = [] }) {
     // 카테고리별로 데이터 분류
     const honeypotPattern = items.filter(item => item.category === 'honeypot');
     const rugpullPattern = items.filter(item => item.category === 'rugpull');
-    const codeAnalyze = items.filter(item => item.category === 'code_analyze');
+    const codeAnalyzeRaw  = items.filter(item => item.category === 'code_analyze');
 
+    const codeAnalyze = (() => {
+    const arr = [...codeAnalyzeRaw];
+
+    // desc/description 안의 "existing_holders_check: true" 같은 패턴까지 함께 검색
+    const findIndexByFeatureKey = (featureKey) =>
+        arr.findIndex((it) => {
+        if (it.key === featureKey || it.name === featureKey) return true;
+
+        const d = (it.desc || it.description || '').toString().trim();
+        // "existing_holders_check: true" 처럼 앞부분이 featureKey 인 경우
+        return d.startsWith(`${featureKey}:`);
+        });
+
+    const idxExisting = findIndexByFeatureKey('existing_holders_check');
+    const idxTrading  = findIndexByFeatureKey('trading_suspend_check');
+
+    if (idxExisting !== -1 && idxTrading !== -1 && idxExisting > idxTrading) {
+        const [existingItem] = arr.splice(idxExisting, 1);
+        arr.splice(idxTrading, 0, existingItem);
+    }
+
+    return arr;
+    })();
 
     const CategoryCard = ({ title, items }) => {
     if (!items || !items.length) return null;
+
+    // RugPull 숫자 뱃지 포맷 (소수점 2자리, 반올림 X, 잘라내기)
+    const formatRugpullBadge = (featureKey, rawValueStr) => {
+    const DECIMAL_KEYS = new Set([
+        'reserve_base_drop_frac',       // Base 잔액 직전 대비 감소율
+        'reserve_quote_drop_frac',      // Quote 잔액 직전 대비 감소율
+        'price_ratio',                  // 가격 비율
+        'time_since_last_mint_sec',     // 마지막 민팅 이후 경과 시간
+        'liquidity_age_days',           // LP 생성 이후 경과 일수
+        'reserve_quote_drawdown_global' // 전체 기간 Quote 잔액 감소율
+    ]);
+
+    if (!DECIMAL_KEYS.has(featureKey)) return rawValueStr;
+
+    const num = parseFloat(rawValueStr);
+    if (!Number.isFinite(num)) return rawValueStr;
+
+    // 🔥 반올림 대신 2자리에서 잘라내기
+    const truncated = Math.trunc(num * 100) / 100;
+
+    return truncated.toFixed(2);
+    };
+
 
     // Code Analyze 뱃지 안 텍스트 매핑
     const formatCodeBadge = (featureKey, rawValueStr) => {
@@ -242,6 +288,8 @@ export default function VictimInsightsCard({ items = [] }) {
             const badgeText =
             title === 'Code Analyze'
                 ? formatCodeBadge(featureKey, rawValueStr)
+                : title === 'RugPull Pattern'
+                ? formatRugpullBadge(featureKey, rawValueStr)
                 : rawValueStr;
 
             // 색상 클래스는 기존 로직 그대로 (true=초록, false=빨강 등)
