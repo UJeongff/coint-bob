@@ -9,8 +9,17 @@ function RiskScoreCard({ token }) {
     // token 객체에서 scamTypeDistribution 가져오기
     const scamTypes = token.scamTypeDistribution || [];
 
+    const isNoMarket =
+        token.scamTypes &&
+        token.scamTypes.length > 0 &&
+        token.scamTypes.every(s => s.level === 'no_market');
+
     // 위험도 레벨 결정 함수
     const getRiskLevel = () => {
+        if (!scamTypes.length || isNoMarket) {
+            return { level: 'Unknown', color: '#9ca3af' };
+        }
+
         const honeypot = scamTypes.find(s => s.type === 'Honeypot')?.percentage ?? 0;
         const exit = scamTypes.find(s => s.type === 'Exit')?.percentage ?? 0;
 
@@ -30,6 +39,8 @@ function RiskScoreCard({ token }) {
 
     // 스코어(0~1)와 타입에 따른 색상 결정
     const getColorByPercentage = (type, score) => {
+        if (isNoMarket) return '#4b5563'; 
+
         const value = typeof score === 'number' ? score : 0;
 
         const ranges = type === 'Honeypot'
@@ -52,6 +63,7 @@ function RiskScoreCard({ token }) {
             case 'Warning':  return '#FF9500';
             case 'Caution':  return '#FFC107';
             case 'Safe':     return '#00C853';
+            case 'no_market': return '#9ca3af';
             default:         return '#FFFFFF';
         }
     };
@@ -129,14 +141,18 @@ function RiskScoreCard({ token }) {
                         />
                         <span className="legend-type">{scam.type}</span>
                         <span className="legend-percentage">
-                            {typeof scam.percentage === 'number'
-                                ? scam.percentage.toFixed(2)
-                                : scam.percentage}
-                            %
+                            {isNoMarket
+                              ? 'Unknown'
+                              : `${
+                                  typeof scam.percentage === 'number'
+                                    ? scam.percentage.toFixed(2)
+                                    : scam.percentage
+                                }%`}
                         </span>
                     </div>
                 ))}
             </div>
+
 
             {/* Scam Type 정보 */}
             <div className="scam-types-section">

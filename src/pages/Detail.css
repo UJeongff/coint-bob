@@ -97,3 +97,43 @@
     margin-bottom: 4px; /* 게이지 카드와 다음 카드 사이 살짝 간격 */
   }
 }
+
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* ← space-between 대신 */
+  gap: 8px;                    /* 라벨/시간/버튼 사이 간격 */
+  padding: 0 20px;
+  font-size: 13px;
+  color: #b4b5c0;
+}
+
+.detail-meta-label {
+  margin-right: 6px;
+  opacity: 0.85;
+}
+
+.detail-meta-value {
+  font-weight: 500;
+}
+
+.detail-refresh-button {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #ffffff;
+}
+
+.detail-refresh-button:hover {
+  opacity: 0.9;
+}

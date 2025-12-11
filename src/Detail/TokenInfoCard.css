@@ -1,105 +1,153 @@
 .token-info-card {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* 헤더 */
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: -15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -15px;
 }
-.card-title { 
-    font-size: 16px;
-    font-weight: 600;
-    color: #FFFFFF;
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .token-info-card .card-title {
-    display: inline-block;
-    margin-top: 16px;
+  display: inline-block;
+  margin-top: 16px;
 }
 
 /* Token Name */
 .token-name-section {
-    display: flex;
-    align-items: baseline;
-    padding-left: 120px;
-    margin-top: 7px;
+  display: flex;
+  align-items: baseline;
+  padding-left: 120px;
+  margin-top: 7px;
 }
 .token-name {
-    font-size: 20px;
-    font-weight: 700;
-    color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
 }
 .token-symbol {
-    font-size: 18px;
-    font-weight: 700;
-    color: #87888C;
-    margin-left: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #87888c;
+  margin-left: 10px;
 }
-.token-symbol::before { content: "("; }
-.token-symbol::after  { content: ")"; }
+.token-symbol::before {
+  content: '(';
+}
+.token-symbol::after {
+  content: ')';
+}
 .addr-pill {
-    transform: translateY(-4px);
-  display: inline-block; padding: 6px 10px; border-radius: 6px;
-  background: #3B6EF5; color:#fff; font-size: 12px; letter-spacing: .2px;
+  transform: translateY(-4px);
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #3b6ef5;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.2px;
   font-family: ui-monospace, Menlo, Consolas, monospace;
   margin-left: 20px;
 }
 .icon-btn {
-  width:22px; height:22px; border:1px solid #2A2D33; border-radius:6px;
-  background:#1A1C21; color:#C9CDD4; font-size:12px; cursor:pointer;
-  display:inline-flex; align-items:center; justify-content:center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #2a2d33;
+  border-radius: 6px;
+  background: #1a1c21;
+  color: #c9cdd4;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.icon-btn:hover { background:#20232A; }
-.icon-btn:focus-visible { outline:2px solid #3B6EF5; outline-offset:2px; }
+.icon-btn:hover {
+  background: #20232a;
+}
+.icon-btn:focus-visible {
+  outline: 2px solid #3b6ef5;
+  outline-offset: 2px;
+}
 
 /* 정보 */
 .info-section {
-    display: flex;
-    flex-direction : column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .info-item {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding-left: 120px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 120px;
 }
 
 .info-label {
-    display: block;
-    color: #87888C;
-    font-size: 14px;
-    font-weight: 400;
+  color: #87888c;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
 }
 
 .info-value {
-    display: block;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 400;
-    word-break: break-all;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
 }
 
-.info-sub {
-    padding-left: 120px;
-    margin-top: 2px;
-    font-size: 12px;
-    color: #b9bac0;
-    line-height: 1.4;
+/* 주소 + 아이콘을 항상 같은 덩어리로 */
+.info-value-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px; /* token address pill 처럼 바로 옆에 보이게 */
+  min-width: 0;
 }
-.info-sub .meta-label { color:#87888C; }
-.info-sub .meta-value { color:#FFFFFF; }        /* 값만 강조 */
-.info-sub .meta-paren { color:#FFFFFF; }        /* 괄호는 라벨색과 통일(선택) */
-.info-sub .meta-sep { margin: 0 6px; }  
+
+.info-value-with-icon .info-value {
+  white-space: nowrap; /* 넓은 화면에서는 줄바꿈 없이 한 줄 */
+}
+
+/* CreateTime */
+.info-sub {
+  padding-left: 120px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #b9bac0;
+  line-height: 1.5;
+  display: flex;
+  flex-wrap: wrap; /* 두 덩어리(Token/Pair)가 필요할 때만 줄바꿈 */
+  gap: 2px 16px;
+}
+
+.info-sub .meta {
+  display: inline-flex;
+  white-space: nowrap; /* 'Token CreateTime(시간)'을 하나의 블록으로 유지 */
+}
+
+.info-sub .meta-label {
+  color: #87888c;
+  margin-right: 6px; /* 'Token CreateTime' 과 '(' 사이 간격 */
+}
+.info-sub .meta-value {
+  color: #ffffff;
+}
+.info-sub .meta-paren {
+  color: #ffffff;
+}
 
 /* 화면이 좁아질 때 여백 줄이기 */
-@media (max-width: 1285px) {
+@media (max-width: 1360px) {
   .token-name-section,
   .info-item,
   .info-sub {
@@ -123,41 +171,31 @@
   }
 }
 
-/* 화면이 좁아질 때 여백 줄이기 */
-@media (max-width: 1100px) {
-  .token-name-section,
-  .info-item,
-  .info-sub {
-    padding-left: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .token-name-section,
-  .info-item,
-  .info-sub {
-    padding-left: 16px;
-  }
-}
-
 /* 좁은 화면에서 주소/값 깨짐 방지 + 요약 표시 */
 @media (max-width: 1200px) {
   .info-item {
     align-items: center;
   }
 
-  .info-value {
+  /* Contract Owner / Pair: 긴 주소는 말줄임 + 아이콘은 끝에 고정 */
+  .info-value-with-icon {
+    flex: 1;
+  }
+  .info-value-with-icon .info-value {
     flex: 1;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;  /* 값이 너무 길면 ... 으로 요약 */
+    text-overflow: ellipsis;
+  }
+  .info-value-with-icon .icon-btn {
+    flex-shrink: 0;
   }
 
   .addr-pill {
-    max-width: 260px;         /* 필요하면 220~280px 사이로 조절 */
+    max-width: 260px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;  /* 토큰 주소도 한 줄 요약 */
+    text-overflow: ellipsis;
   }
 }

@@ -147,7 +147,7 @@ const FEATURE_KO_LABEL = {
 };
 
 
-export default function VictimInsightsCard({ items = [] }) {
+export default function VictimInsightsCard({ items = [], isNoMarket = false }) {
     if (!items.length) {
         return <div style={{color: '#87888c'}}>탐지 지표가 없습니다.</div>
     }
@@ -329,15 +329,19 @@ export default function VictimInsightsCard({ items = [] }) {
                 <span className="victim-count"></span>
             </div>
             
-            <CategoryCard 
-                title="Honeypot Pattern (Top 5)" 
-                items={honeypotPattern}
-            />
-            
-            <CategoryCard 
-                title="RugPull Pattern" 
-                items={rugpullPattern}
-            />
+            {!isNoMarket && (
+                <>
+                    <CategoryCard 
+                        title="Honeypot Pattern (Top 5)" 
+                        items={honeypotPattern}
+                    />
+                    
+                    <CategoryCard 
+                        title="RugPull Pattern" 
+                        items={rugpullPattern}
+                    />
+                </>
+            )}
 
             <CategoryCard 
                 title="Code Analyze" 

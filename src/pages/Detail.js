@@ -11,6 +11,23 @@ import VictimInsightsCard from '../Detail/VictimInsights';
 const API_BASE = process.env.REACT_APP_API_BASE;
 console.log('API_BASE in Detail:', API_BASE);
 
+function formatLastAnalyzedAt(isoString) {
+  if (!isoString) return null;
+
+  const d = new Date(isoString);
+  if (Number.isNaN(d.getTime())) return null;
+
+  // ✅ UTC 기준으로 직접 포맷
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  const hour = String(d.getUTCHours()).padStart(2, '0');
+  const minute = String(d.getUTCMinutes()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hour}:${minute} UTC`;
+}
+
+
 // Result API → Detail 컴포넌트에서 쓰는 tokenData 형태로 매핑
 function mapApiResultToTokenData(apiResult) {
   const snapshot = apiResult.tokenSnapshot || {};
@@ -18,21 +35,32 @@ function mapApiResultToTokenData(apiResult) {
   const riskScore = apiResult.riskScore || {};
   const scamTypesRaw = apiResult.scam_types || [];
 
+  const isNoMarket =
+    scamTypesRaw.length > 0 &&
+    scamTypesRaw.every((s) => s.level === 'no_market');
+
   // 1) RiskScoreCard용 게이지 데이터 ------------------------------------
   const scamTypeDistribution = [];
-    if (typeof riskScore.honeypot === 'number') {
+  if (typeof riskScore.honeypot === 'number') {
     scamTypeDistribution.push({
-        type: 'Honeypot',
-        // ⬇ 반올림 제거: 그대로 0~100 사이의 실수 유지
-        percentage: riskScore.honeypot * 100,
+      type: 'Honeypot',
+      percentage: riskScore.honeypot * 100,
     });
-    }
-    if (typeof riskScore.exit === 'number') {
+  }
+  if (typeof riskScore.exit === 'number') {
     scamTypeDistribution.push({
-        type: 'Exit',
-        percentage: riskScore.exit * 100,
+      type: 'Exit',
+      percentage: riskScore.exit * 100,
     });
-    }
+  }
+
+  // 🧊 no_market 이고 실제 스코어가 없으면 0%로 채운 분포 생성
+  if (!scamTypeDistribution.length && isNoMarket) {
+    scamTypeDistribution.push(
+      { type: 'Honeypot', percentage: 0 },
+      { type: 'Exit', percentage: 0 },
+    );
+  }
 
   // 2) RiskScoreCard 하단 리스트용 scamTypes -----------------------------
   const scamTypes = scamTypesRaw.map((s) => ({
@@ -137,6 +165,7 @@ function mapApiResultToTokenData(apiResult) {
     holders,
     totalHolders,
     victimInsights,
+    isNoMarket,   
   };
 }
 
@@ -148,6 +177,8 @@ function Detail() {
     const [tokenData, setTokenData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [lastAnalyzedAt, setLastAnalyzedAt] = useState(null);
+
 
     useEffect(() => {
         if (!address) {
@@ -206,6 +237,8 @@ function Detail() {
 
             // ✅ 4) 여기서만 실제 JSON 파싱
             const json = JSON.parse(text);
+            setLastAnalyzedAt(json.created_at || null);
+
             const mapped = mapApiResultToTokenData(json);
             setTokenData(mapped);
 
@@ -220,6 +253,45 @@ function Detail() {
 
         fetchTokenData();
     }, [address]);
+
+    const handleRefreshClick = async () => {
+    if (!address) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const normalizedAddress = address.trim();
+      const analyzeUrl = `${API_BASE}/api/analyze/`;
+      console.log('Refresh analyze URL:', analyzeUrl);
+
+      const res = await fetch(analyzeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          token_addr: normalizedAddress,
+          reset: 1, // ✅ 갱신 모드
+        }),
+      });
+
+      if (!res.ok) {
+        console.error('갱신 요청 실패', res.status);
+        setError('결과 갱신에 실패했습니다.');
+        return;
+      }
+
+      // 간단하게: 갱신 후 새 결과를 다시 불러오기
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      setError('네트워크 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
     // 주소가 없는 경우 - 안내 화면
@@ -251,22 +323,41 @@ function Detail() {
         return null;
     }
 
-    return (
-        <div className="detail-container">
-            <div className="detail-risk-score">
-                <RiskScoreCard token={tokenData} />
-            </div>
-            <div className="detail-token-info">
-                <TokenInfoCard token={tokenData} />
-            </div>
-            <div className="detail-holders">
-                <HoldersChart token={tokenData} />
-            </div>
-            <div className="detail-victim-insights">
-                <VictimInsightsCard items={tokenData.victimInsights ?? []} />
-            </div>
+  return (
+    <div className="detail-page">
+      <div className="detail-meta-row">
+        <span className="detail-meta-label">마지막 분석 시간</span>
+        <span className="detail-meta-value">
+          {formatLastAnalyzedAt(lastAnalyzedAt) || '분석 이력 없음'}
+        </span>
+        <button
+          type="button"
+          className="detail-refresh-button"
+          onClick={handleRefreshClick}
+        >
+          갱신
+        </button>
+      </div>
+      <div className="detail-container">
+        <div className="detail-risk-score">
+          <RiskScoreCard token={tokenData} />
         </div>
-    );
+        <div className="detail-token-info">
+          <TokenInfoCard token={tokenData} />
+        </div>
+        <div className="detail-holders">
+          <HoldersChart token={tokenData} />
+        </div>
+        <div className="detail-victim-insights">
+          <VictimInsightsCard
+            items={tokenData.victimInsights ?? []}
+            isNoMarket={tokenData.isNoMarket}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
 }
 
 export default Detail;
