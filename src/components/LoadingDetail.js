@@ -34,7 +34,10 @@ function LoadingDetail() {
                 const res = await fetch(`${API_BASE}/api/analyze/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token_addr: tokenAddr }),
+                    body: JSON.stringify({
+                        token_addr: tokenAddr.trim(),
+                        reset: 0,        // ✅ 처음 분석 or 기존 결과 유지 모드
+                    }),
                 });
 
                 if (!res.ok) {
