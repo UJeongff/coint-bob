@@ -65,6 +65,9 @@ const FEATURE_KO_LABEL = {
 
   // (동적 분석 관련 기본 플래그는 위 Dynamic 섹션과 동일)
   balance_manipulation: '잔액 조작 가능 여부',
+  sell_result_1: '매도 시도의 최종 결과',
+  sell_result_2: '매도 시도의 최종 결과',
+  sell_result_3: '매도 시도의 최종 결과',
 
   // ===== 예측 모델 기본 피처 =====
   sell_vol_per_cnt: '매도 1건당 평균 매도 물량(전체 매도 물량 ÷ 매도 횟수)',
@@ -149,8 +152,12 @@ const FEATURE_KO_LABEL = {
 
 export default function VictimInsightsCard({ items = [], isNoMarket = false, scamTypes = [] }) {
 
-    const isHoneypotSafe = scamTypes.some(s => s.type === "Honeypot" && s.level === "safe");
-    const isExitSafe     = scamTypes.some(s => s.type === "Exit" && s.level === "safe");
+    const isHoneypotSafe = scamTypes.some(
+    (s) => s.type === "Honeypot" && String(s.level).toLowerCase() === "safe"
+    );
+    const isExitSafe = scamTypes.some(
+    (s) => s.type === "Exit" && String(s.level).toLowerCase() === "safe"
+    );
 
     if (!items.length) {
         return <div style={{color: '#87888c'}}>탐지 지표가 없습니다.</div>

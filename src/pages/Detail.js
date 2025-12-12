@@ -73,27 +73,11 @@ function mapApiResultToTokenData(apiResult) {
     level: s.level || '-',
   }));
 
-   // 3) HoldersChart용 상위 홀더 리스트 -----------------------------------
+  // 3) HoldersChart용 상위 홀더 리스트 -----------------------------------
   const holdersRaw =
     holderSnapshot.top_holders ||
     holderSnapshot.holders ||
     [];
-
- // 🔹 이 토큰 안에서 "가장 큰 홀더" 값을 기준(100%)으로 사용할 max 값 계산
-  const relValues = holdersRaw.map((h) => {
-    const relRaw =
-      h.rel_to_total ??
-      h.share_pct ??
-      h.percentage ??
-      0;
-
-    const relNum =
-      typeof relRaw === 'string' ? parseFloat(relRaw) : (relRaw || 0);
-
-    return Number.isFinite(relNum) ? relNum : 0;
-  });
-
-  const maxRel = relValues.length ? Math.max(...relValues) : 0;
 
   const holders = holdersRaw.map((h, idx) => {
     const relRaw =
@@ -102,19 +86,22 @@ function mapApiResultToTokenData(apiResult) {
       h.percentage ??
       0;
 
-    let relNum =
+    // 🔹 백엔드가 준 퍼센트 원본
+    let rawPct =
       typeof relRaw === 'string' ? parseFloat(relRaw) : (relRaw || 0);
 
-    if (!Number.isFinite(relNum) || relNum < 0) relNum = 0;
+    if (!Number.isFinite(rawPct)) rawPct = 0;
 
-    // 🔥 bar 길이: "가장 큰 홀더"를 100%로 보는 상대 비율
-    const pctForBar = maxRel > 0 ? (relNum / maxRel) * 100 : 0;
+    // 🔹 bar 폭용: 0~100으로만 제한
+    let barPct = rawPct;
+    if (barPct < 0) barPct = 0;
+    if (barPct > 100) barPct = 100;
 
     return {
       rank: h.rank ?? idx + 1,
       address: h.holder_addr || h.address || '-',
-      percentage: relNum,        // 오른쪽 숫자는 원래 값 유지
-      barPercentage: pctForBar,  // 막대 길이: 0~100 (최대 홀더 = 100)
+      percentage: rawPct,  // → 텍스트는 이 값 기준
+      barPercentage: barPct // → bar-fill width는 이 값 기준 (0~100)
     };
   });
 
@@ -369,6 +356,7 @@ function Detail() {
           <VictimInsightsCard
             items={tokenData.victimInsights ?? []}
             isNoMarket={tokenData.isNoMarket}
+            scamTypes={tokenData.scamTypes ?? []}
           />
         </div>
       </div>
