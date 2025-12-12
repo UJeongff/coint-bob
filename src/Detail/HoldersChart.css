@@ -45,7 +45,8 @@
   color: #FFFFFF;
   font-size: 18px;
   font-weight: 600;
-  min-width: 50px; 
+  width: 130px;       /* 🔥 폭 고정: 80~110px 사이에서 조절 가능 */
+  flex-shrink: 0;    /* 숫자 때문에 줄어들지 않게 */
   text-align: right;
 }
 
@@ -64,3 +65,8 @@
 .holders-scroll::-webkit-scrollbar-thumb:hover { filter: brightness(0.9); }
 .holders-scroll { scrollbar-width: thin; /* auto/thin */
                   scrollbar-color: #87888C transparent; }
+
+/* 홀더 차트 카드 기본 높이 확보 */
+.holders-chart {
+  min-height: 220px; /* 200~260px 사이 취향에 맞게 조절 */
+}

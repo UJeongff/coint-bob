@@ -147,7 +147,7 @@
 }
 
 /* 화면이 좁아질 때 여백 줄이기 */
-@media (max-width: 1360px) {
+@media (max-width: 1510px) {
   .token-name-section,
   .info-item,
   .info-sub {
@@ -155,7 +155,7 @@
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1430px) {
   .token-name-section,
   .info-item,
   .info-sub {
@@ -163,7 +163,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1400px) {
   .token-name-section,
   .info-item,
   .info-sub {
@@ -172,15 +172,12 @@
 }
 
 /* 좁은 화면에서 주소/값 깨짐 방지 + 요약 표시 */
-@media (max-width: 1200px) {
+@media (max-width: 1360px) {
   .info-item {
     align-items: center;
   }
 
   /* Contract Owner / Pair: 긴 주소는 말줄임 + 아이콘은 끝에 고정 */
-  .info-value-with-icon {
-    flex: 1;
-  }
   .info-value-with-icon .info-value {
     flex: 1;
     min-width: 0;

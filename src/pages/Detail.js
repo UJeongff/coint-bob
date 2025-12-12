@@ -73,11 +73,27 @@ function mapApiResultToTokenData(apiResult) {
     level: s.level || '-',
   }));
 
-  // 3) HoldersChart용 상위 홀더 리스트 -----------------------------------
-    const holdersRaw =
+   // 3) HoldersChart용 상위 홀더 리스트 -----------------------------------
+  const holdersRaw =
     holderSnapshot.top_holders ||
     holderSnapshot.holders ||
     [];
+
+ // 🔹 이 토큰 안에서 "가장 큰 홀더" 값을 기준(100%)으로 사용할 max 값 계산
+  const relValues = holdersRaw.map((h) => {
+    const relRaw =
+      h.rel_to_total ??
+      h.share_pct ??
+      h.percentage ??
+      0;
+
+    const relNum =
+      typeof relRaw === 'string' ? parseFloat(relRaw) : (relRaw || 0);
+
+    return Number.isFinite(relNum) ? relNum : 0;
+  });
+
+  const maxRel = relValues.length ? Math.max(...relValues) : 0;
 
   const holders = holdersRaw.map((h, idx) => {
     const relRaw =
@@ -89,17 +105,18 @@ function mapApiResultToTokenData(apiResult) {
     let relNum =
       typeof relRaw === 'string' ? parseFloat(relRaw) : (relRaw || 0);
 
-    // 0~100 사이로 클램핑 (바 폭, %표시용)
-    if (!Number.isFinite(relNum)) relNum = 0;
-    const pctForBar = Math.min(100, Math.max(0, relNum));
+    if (!Number.isFinite(relNum) || relNum < 0) relNum = 0;
+
+    // 🔥 bar 길이: "가장 큰 홀더"를 100%로 보는 상대 비율
+    const pctForBar = maxRel > 0 ? (relNum / maxRel) * 100 : 0;
 
     return {
-        rank: h.rank ?? idx + 1,
-        address: h.holder_addr || h.address || '-',
-        percentage: relNum,       // 표시용: 원래 값 그대로
-        barPercentage: pctForBar, // 막대용: 0~100
+      rank: h.rank ?? idx + 1,
+      address: h.holder_addr || h.address || '-',
+      percentage: relNum,        // 오른쪽 숫자는 원래 값 유지
+      barPercentage: pctForBar,  // 막대 길이: 0~100 (최대 홀더 = 100)
     };
-    });
+  });
 
   const totalHolders =
     snapshot.holder_cnt ??
