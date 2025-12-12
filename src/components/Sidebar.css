@@ -4,7 +4,7 @@
 }
 
 /* 숨겨졌을 때 토큰 카드가 가려지지 않도록 메인에 패딩 */
-@media (max-width: 900px) {
+@media (max-width: 1360px) {
   .sidebar {
     position: fixed;
     left: 0;

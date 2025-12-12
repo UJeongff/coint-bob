@@ -70,7 +70,7 @@
     min-height: 100%;
 }
 
-@media (max-width: 1360px) {
+@media (max-width: 1135px) {
   .detail-container {
     grid-template-columns: 1fr;
     gap: 16px;

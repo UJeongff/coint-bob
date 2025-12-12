@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 860px;
+  margin: 0 auto; 
 }
 
 /* 헤더 */
@@ -155,6 +157,14 @@
   }
 }
 
+@media (max-width: 1470px) {
+  .token-name-section,
+  .info-item,
+  .info-sub {
+    padding-left: 50px;
+  }
+}
+
 @media (max-width: 1430px) {
   .token-name-section,
   .info-item,
@@ -171,8 +181,16 @@
   }
 }
 
-/* 좁은 화면에서 주소/값 깨짐 방지 + 요약 표시 */
 @media (max-width: 1360px) {
+  .token-name-section,
+  .info-item,
+  .info-sub {
+    padding-left: 10px;
+  }
+}
+
+/* 좁은 화면에서 주소/값 깨짐 방지 + 요약 표시 */
+@media (max-width: 1135px) {
   .info-item {
     align-items: center;
   }
@@ -187,12 +205,5 @@
   }
   .info-value-with-icon .icon-btn {
     flex-shrink: 0;
-  }
-
-  .addr-pill {
-    max-width: 260px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
