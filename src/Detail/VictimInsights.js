@@ -147,7 +147,11 @@ const FEATURE_KO_LABEL = {
 };
 
 
-export default function VictimInsightsCard({ items = [], isNoMarket = false }) {
+export default function VictimInsightsCard({ items = [], isNoMarket = false, scamTypes = [] }) {
+
+    const isHoneypotSafe = scamTypes.some(s => s.type === "Honeypot" && s.level === "safe");
+    const isExitSafe     = scamTypes.some(s => s.type === "Exit" && s.level === "safe");
+
     if (!items.length) {
         return <div style={{color: '#87888c'}}>탐지 지표가 없습니다.</div>
     }
@@ -325,23 +329,28 @@ export default function VictimInsightsCard({ items = [], isNoMarket = false }) {
     return (
         <div>
             <div className="victim-header">
-                <h3>Visitor Insights</h3>
+                <h3>Detection Insights</h3>
                 <span className="victim-count"></span>
             </div>
             
             {!isNoMarket && (
                 <>
-                    <CategoryCard 
-                        title="Honeypot Pattern (Top 5)" 
-                        items={honeypotPattern}
-                    />
-                    
-                    <CategoryCard 
-                        title="RugPull Pattern" 
-                        items={rugpullPattern}
-                    />
+                    {!isHoneypotSafe && (
+                        <CategoryCard 
+                            title="Honeypot Pattern (Top 5)" 
+                            items={honeypotPattern} 
+                        />
+                    )}
+
+                    {!isExitSafe && (
+                        <CategoryCard 
+                            title="Exit Pattern" 
+                            items={rugpullPattern}
+                        />
+                    )}
                 </>
             )}
+
 
             <CategoryCard 
                 title="Code Analyze" 

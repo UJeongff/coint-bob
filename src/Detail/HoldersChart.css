@@ -21,7 +21,7 @@
 
 .holder-address {
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 15px;
   font-family: ui-monospace, Menlo, Consolas, monospace;
   min-width: 20px;
 }
@@ -43,7 +43,7 @@
 
 .holder-percentage {
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   min-width: 50px; 
   text-align: right;

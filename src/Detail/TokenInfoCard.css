@@ -12,7 +12,7 @@
   margin-top: -15px;
 }
 .card-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   color: #ffffff;
 }
@@ -35,7 +35,7 @@
   color: #ffffff;
 }
 .token-symbol {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #87888c;
   margin-left: 10px;
@@ -49,11 +49,11 @@
 .addr-pill {
   transform: translateY(-4px);
   display: inline-block;
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: 6px;
   background: #3b6ef5;
   color: #fff;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.2px;
   font-family: ui-monospace, Menlo, Consolas, monospace;
   margin-left: 20px;
@@ -95,14 +95,14 @@
 
 .info-label {
   color: #87888c;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   white-space: nowrap;
 }
 
 .info-value {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -122,7 +122,7 @@
 .info-sub {
   padding-left: 120px;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 13px;
   color: #b9bac0;
   line-height: 1.5;
   display: flex;

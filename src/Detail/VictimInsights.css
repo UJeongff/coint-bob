@@ -11,7 +11,7 @@
 
 .category-title {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 12px;
 }
@@ -36,14 +36,14 @@
 }
 
 .item-label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .item-badge {
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 15px;
 }
 
 .item-badge.badge-true {
@@ -62,6 +62,6 @@
 }
 
 .item-desc {
-  font-size: 11px;
+  font-size: 14px;
   color: #9ca3af;
 }

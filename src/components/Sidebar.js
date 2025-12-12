@@ -76,7 +76,7 @@ function Sidebar() {
                 <div style={{
                     padding: '10px',
                     color: location.pathname === '/detail' ? '#171821' : '#87888C',
-                    backgroundColor : location.pathname === '/detail' ? '#4880FF' : 'transparent',
+
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
@@ -85,6 +85,23 @@ function Sidebar() {
                     position: 'relative', 
                     zIndex: 1
                 }}>
+                    {location.pathname === '/detail' && (
+                        <motion.div
+                            layoutId="highlight"
+                            transition={{ duration: 0.15 }}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: '#4880FF',
+                                borderRadius: '8px',
+                                zIndex: -1
+                            }}
+                        />
+                    )}
+
                     {location.pathname === '/detail' && (
                         <motion.div
                             layoutId="highlight"

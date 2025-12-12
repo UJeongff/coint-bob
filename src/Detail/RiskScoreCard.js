@@ -69,6 +69,10 @@ function RiskScoreCard({ token }) {
     };
     const riskLevel = getRiskLevel();
 
+    if (isNoMarket) {
+        riskLevel.level = "No Market";
+        riskLevel.color = "#9ca3af";
+    }
     return (
         <div className="risk-score-card">
             <h3 className="card-title">Risk Score</h3>
@@ -163,8 +167,9 @@ function RiskScoreCard({ token }) {
                             className="scam-level"
                             style={{ color: getLevelColor(item.level) }}
                         >
-                            {item.level}
+                            {isNoMarket ? "Unknown" : item.level}
                         </span>
+
                     </div>
                 ))}
             </div>

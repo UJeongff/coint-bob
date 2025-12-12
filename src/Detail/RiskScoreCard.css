@@ -19,7 +19,7 @@
 }
 
 .risk-level-text {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
 }
 
@@ -58,13 +58,13 @@
 }
 
 .legend-type {
-    font-size: 14px;
+    font-size: 16px;
     color: #FFFFFF;
     flex: 1;
 }
 
 .legend-percentage {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #FFFFFF;
 }
@@ -92,7 +92,7 @@
 
 .scam-level {
     text-align: right;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     margin-right: 20px; 
 }
