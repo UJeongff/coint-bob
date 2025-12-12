@@ -32,7 +32,7 @@
     padding: 20px;
     border-radius: 12px;
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 14px;
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
 }
@@ -110,7 +110,7 @@
   justify-content: flex-start; /* ← space-between 대신 */
   gap: 8px;                    /* 라벨/시간/버튼 사이 간격 */
   padding: 0 20px;
-  font-size: 13px;
+  font-size: 16px;
   color: #b4b5c0;
 }
 
@@ -128,7 +128,7 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: #ffffff;
