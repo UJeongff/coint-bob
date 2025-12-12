@@ -7,7 +7,7 @@
 }
 
 .card-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #FFFFFF;
     margin: 0;
@@ -19,7 +19,7 @@
 }
 
 .risk-level-text {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 700;
 }
 
@@ -58,13 +58,13 @@
 }
 
 .legend-type {
-    font-size: 16px;
+    font-size: 20px;
     color: #FFFFFF;
     flex: 1;
 }
 
 .legend-percentage {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     color: #FFFFFF;
 }
@@ -95,4 +95,9 @@
     font-size: 20px;
     font-weight: 700;
     margin-right: 20px; 
+}
+
+/* ⚡ Scam Type 두 줄을 위로 살짝 올리기 */
+.scam-types-section {
+    margin-top: -10px; /* -5px~-15px 사이 조절 추천 */
 }

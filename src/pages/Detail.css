@@ -110,7 +110,7 @@
   justify-content: flex-start; /* ← space-between 대신 */
   gap: 8px;                    /* 라벨/시간/버튼 사이 간격 */
   padding: 0 20px;
-  font-size: 16px;
+  font-size: 18px;
   color: #b4b5c0;
 }
 
@@ -128,7 +128,7 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: #ffffff;
@@ -136,4 +136,16 @@
 
 .detail-refresh-button:hover {
   opacity: 0.9;
+}
+/* 공통 타이틀 크기 확대 */
+.card-title {
+  font-size: 22px !important; /* 기존 18→22 */
+}
+
+.category-title {
+  font-size: 28px !important; /* 기존 25→28 */
+}
+
+.victim-header h3 {
+  font-size: 23px !important;
 }
