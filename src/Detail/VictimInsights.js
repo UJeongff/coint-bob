@@ -65,9 +65,9 @@ const FEATURE_KO_LABEL = {
 
   // (동적 분석 관련 기본 플래그는 위 Dynamic 섹션과 동일)
   balance_manipulation: '잔액 조작 가능 여부',
-  sell_result_1: '매도 시도의 최종 결과',
-  sell_result_2: '매도 시도의 최종 결과',
-  sell_result_3: '매도 시도의 최종 결과',
+  sell_result_1: '소량 매도 성공 여부 (0.5%)',
+  sell_result_2: '중간량 매도 성공 여부 (2%)',
+  sell_result_3: '대량 매도 성공 여부 (5%)',
 
   // ===== 예측 모델 기본 피처 =====
   sell_vol_per_cnt: '매도 1건당 평균 매도 물량(전체 매도 물량 ÷ 매도 횟수)',
@@ -217,7 +217,6 @@ export default function VictimInsightsCard({ items = [], isNoMarket = false, sca
     return truncated.toFixed(2);
     };
 
-
     // Code Analyze 뱃지 안 텍스트 매핑
     const formatCodeBadge = (featureKey, rawValueStr) => {
     const valueStr = String(rawValueStr).trim();
@@ -242,11 +241,12 @@ export default function VictimInsightsCard({ items = [], isNoMarket = false, sca
 
     // 3️⃣ 매도 테스트: sell_1/2/3 또는 sell_result_1/2/3
     if (
-        (featureKey.startsWith('sell_') &&
-        !featureKey.startsWith('sell_fail_type')) || // 안전장치
-        featureKey.startsWith('sell_result')
+    (featureKey.startsWith('sell_') && !featureKey.startsWith('sell_fail_type')) ||
+    featureKey.startsWith('sell_result_')
     ) {
-        return valueStr === 'true' ? '매도 성공' : '매도 실패';
+    const v = String(rawValueStr).trim().toLowerCase();
+    const isSuccess = (v === 'true' || v === '1');
+    return isSuccess ? '매도 성공' : '매도 실패';
     }
 
     // 4️⃣ 나머지는 값 그대로
@@ -296,21 +296,28 @@ export default function VictimInsightsCard({ items = [], isNoMarket = false, sca
             const rawValueStr = valueStr;
 
             // Code Analyze 섹션일 때만 한글 매핑
+            const isSellResultKey = featureKey?.startsWith('sell_result_');
+
             const badgeText =
-            title === 'Code Analyze'
+            (title === 'Code Analyze' || isSellResultKey)
                 ? formatCodeBadge(featureKey, rawValueStr)
-                : title === 'RugPull Pattern'
+                : title === 'Exit Pattern'
                 ? formatRugpullBadge(featureKey, rawValueStr)
                 : rawValueStr;
 
-            // 색상 클래스는 기존 로직 그대로 (true=초록, false=빨강 등)
-            const isTrue = rawValueStr === 'true' || value === true;
-            const isFalse = rawValueStr === 'false' || value === false;
-            const badgeClass = isTrue
-            ? 'badge-true'
-            : isFalse
-            ? 'badge-false'
-            : 'badge-default';
+            const norm = String(rawValueStr).trim().toLowerCase();
+            const isSellResult = featureKey?.startsWith('sell_result_');
+
+            const isTrue =
+            rawValueStr === 'true' || value === true ||
+            (isSellResult && (norm === '1' || value === 1));
+
+            const isFalse =
+            rawValueStr === 'false' || value === false ||
+            (isSellResult && (norm === '0' || value === 0));
+
+            const badgeClass = isTrue ? 'badge-true' : isFalse ? 'badge-false' : 'badge-default';
+
 
             return (
                 <li key={item.key || idx} className="category-item">

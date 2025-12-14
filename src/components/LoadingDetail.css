@@ -107,3 +107,7 @@
         transform: translateX(0);
     }
 }
+
+.loading-error-actions { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+.loading-error-btn { padding: 8px 12px; border-radius: 10px; }
+.loading-error-btn.ghost { background: transparent; border: 1px solid rgba(148,163,184,.25); }

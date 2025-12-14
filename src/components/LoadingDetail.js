@@ -2,8 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './LoadingDetail.css';
 
-// const API_BASE = process.env.REACT_APP_API_BASE || '';
-const API_BASE = process.env.REACT_APP_API_BASE;
+const API_BASE = process.env.REACT_APP_API_BASE || '';
 console.log('API_BASE in LoadingDetail:', API_BASE);
 
 function LoadingDetail() {
@@ -15,6 +14,8 @@ function LoadingDetail() {
 
     const safeProgress = Math.min(Math.max(progress, 0), 100);
     const hasRunRef = useRef(false);
+
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         if (!tokenAddr) return;
@@ -41,9 +42,24 @@ function LoadingDetail() {
                 });
 
                 if (!res.ok) {
-                    console.error('Analyze failed', res.status, await res.text());
-                    // TODO: 에러 상태를 띄우거나, 별도 에러 페이지로 이동
-                    return;
+                const text = await res.text();
+                let msg = '분석에 실패했어요. 유효한 토큰 주소인지 확인해 주세요.';
+
+                // 서버가 JSON으로 에러를 주는 경우 대비
+                try {
+                    const j = JSON.parse(text);
+                    msg = j.detail || j.message || msg;
+                } catch (_) {}
+
+                setError({
+                    status: res.status,
+                    message: res.status >= 500
+                    ? '서버 오류가 발생했어요. 다시 시도해 주세요.'
+                    : msg,
+                });
+
+                clearInterval(timer);
+                return;
                 }
 
                 // 완료 시 100%로
@@ -55,6 +71,11 @@ function LoadingDetail() {
                 }, 400);
             } catch (err) {
                 console.error('Analyze failed', err);
+                setError({
+                    status: 0,
+                    message: '네트워크 오류가 발생했어요. 잠시 후 다시 시도해 주세요.',
+                });
+
                 // TODO: 여기서 에러 메시지 띄우거나 에러 페이지로 보내도 됨
             } finally {
                 clearInterval(timer);
@@ -66,6 +87,18 @@ function LoadingDetail() {
         // 언마운트 시 타이머 정리
         return () => clearInterval(timer);
     }, [tokenAddr, navigate]);
+
+    if (error) {
+    return (
+        <div className="loading-detail-container">
+        <div className="loading-detail-content">
+            <h2 className="loading-detail-title">분석에 실패했어요 ({error.status})</h2>
+            <p className="loading-detail-description">{error.message}</p>
+        </div>
+        </div>
+    );
+    }
+
 
     return (
         <div className="loading-detail-container">
