@@ -145,8 +145,8 @@ const FEATURE_KO_LABEL = {
   time_since_last_mint_sec: '마지막 민팅 이후 경과 시간',
   reserve_quote_drawdown_global: '전체 기간 Quote 잔액 감소율',
   liquidity_age_days: 'LP 생성 이후 경과 일수',
-  timestamp: '탈취 예상 시점',
-  tx_hash: '탈취 예상 시점의 트랜잭션 해시'
+  timestamp: '탈취 의심 시점',
+  tx_hash: '탈취 의심 시점의 트랜잭션 해시'
 };
 
 
