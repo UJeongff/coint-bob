@@ -28,8 +28,8 @@ function RiskScoreCard({ token }) {
         const value = isHoneypotMax ? honeypot : exit;
 
         const ranges = isHoneypotMax
-            ? { safe: 2.00, caution: 48.999999999999977, warning: 97.9 }          // Honeypot
-            : { safe: 2.00, caution: 78.0502200126648, warning: 99.5 };           // Exit
+            ? { safe: 4.00, caution: 48.999999999999977, warning: 97.8 }          // Honeypot
+            : { safe: 8.55, caution: 78.0502200126648, warning: 96.9 };           // Exit
 
         if (value < ranges.safe)   return { level: 'Safe',     color: '#00C853' };
         if (value < ranges.caution) return { level: 'Caution',  color: '#FFC107' };
@@ -44,8 +44,8 @@ function RiskScoreCard({ token }) {
         const value = typeof score === 'number' ? score : 0;
 
         const ranges = type === 'Honeypot'
-            ? { safe: 2.00, caution: 48.999999999999977, warning: 97.9 }          // Honeypot 구간
-            : { safe: 2.00, caution: 78.0502200126648, warning: 99.5 };           // Exit 구간
+            ? { safe: 4.00, caution: 48.999999999999977, warning: 97.8 }          // Honeypot 구간
+            : { safe: 8.55, caution: 78.0502200126648, warning: 96.9 };           // Exit 구간
 
         if (value < ranges.safe)   return '#00C853'; // Safe
         if (value < ranges.caution) return '#FFC107'; // Caution
